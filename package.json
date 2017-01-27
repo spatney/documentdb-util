@@ -1,6 +1,6 @@
 {
   "name": "documentdb-util",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A little wrapper utility around document db to perfrom simple operations",
   "main": "index.js",
   "scripts": {
@@ -10,5 +10,12 @@
   "license": "MIT",
   "dependencies": {
     "documentdb": "^1.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spatney/documentdb-util"
+  },
+  "bugs": {
+    "url": "https://github.com/spatney/documentdb-util/issues"
   }
 }
