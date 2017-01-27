@@ -3,7 +3,7 @@
 # Document DB Utility
 Here are some examples on how to use this Utility. Note, *await* is only avaliable as an experimental feature in Node. Each function returns a promise, so you can simple chain promises instead of using *await*.
 
-### Get or Create DB
+### Get or Create Database
 
 ```javascript
 await DatabaseUtil.database('test');
