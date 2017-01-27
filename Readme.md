@@ -5,19 +5,19 @@ Here are some examples on how to use this Utility. Note, *await* is only avaliab
 
 ### Get or Create DB
 
-```
+```javascript
 await DatabaseUtil.database('test');
 ```
 
 ### Get or Create Collection
 
-```
+```javascript
 let collection = await DatabaseUtil.collection(database, 'people');
 ```
 
 ### Insert Document
 
-```
+```javascript
 await DatabaseUtil.insert(collection, {
         name:'penguin',
         profession: 'good guy'
@@ -26,7 +26,7 @@ await DatabaseUtil.insert(collection, {
 
 ### Query for Documents
 
-```
+```javascript
 let spec = {
         query: 'Select * from c where c.name = @name',
         parameters:[
@@ -42,14 +42,14 @@ let docs = await DatabaseUtil.query(collection, spec);
 
 ### Update Document
 
-```
+```javascript
 let docLink = DatabaseUtil.createDocumentLink(database.id, collection.id, doc.id);
 
 await DatabaseUtil.update(docLink, doc);
 ```
 
 ### Delete Document
-```
+```javascript
 let docLink = DatabaseUtil.createDocumentLink(database.id, collection.id, doc.id);
 
 await DatabaseUtil.delete(docLink);
