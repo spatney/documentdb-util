@@ -43,6 +43,9 @@ let docs = await DatabaseUtil.query(collection, spec);
 ### Update Document
 
 ```javascript
+let doc = (await DatabaseUtil.query(collection, spec))[0];
+doc.profession = "bad guy";
+
 let docLink = DatabaseUtil.createDocumentLink(database.id, collection.id, doc.id);
 
 await DatabaseUtil.update(docLink, doc);
