@@ -4,6 +4,11 @@
 # Document DB Utility
 Here are some examples on how to use this Utility. Note, *await* is only avaliable as an experimental feature in Node. Each function returns a promise, so you can simple chain promises instead of using *await*.
 
+### Initialize the library
+```javascript
+var DatabaseUtil = require('documentdb-util')({authKey:'KEY', host:'URL TO DOCDB'});
+```
+
 ### Get or Create Database
 
 ```javascript
