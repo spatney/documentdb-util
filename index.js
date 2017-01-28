@@ -57,7 +57,7 @@ function createUtility(config) {
          */
         collection(database, collectionId) {
             return new Promise((resolve, reject) => {
-                var querySpec = {
+                let querySpec = {
                     query: 'SELECT * FROM root r WHERE r.id=@id',
                     parameters: [{
                         name: '@id',
@@ -69,7 +69,7 @@ function createUtility(config) {
                     if (err) return reject(err);
 
                     if (results.length === 0) {
-                        var collectionSpec = {
+                        let collectionSpec = {
                             id: collectionId
                         };
 
@@ -111,7 +111,7 @@ function createUtility(config) {
                     if (err) return reject(err);
                     resolve();
                 });
-            })
+            });
         },
 
         /**
@@ -129,8 +129,9 @@ function createUtility(config) {
                     if (err) return reject(err);
                     resolve(results);
                 });
-            })
+            });
         },
+
         /**
          * Update a document.
          * 
@@ -143,7 +144,41 @@ function createUtility(config) {
                     if (err) return reject(err);
                     resolve(updated);
                 });
-            })
+            });
+        },
+
+        /**
+         * Delete database.
+         * 
+         * @param {string} databaseId - Id of the database.
+         */
+        deleteDatabase(databaseId) {
+            return new Promise((resolve, reject) => {
+                let dbLink = 'dbs/' + databaseId;
+
+                client.deleteDatabase(dbLink, err => {
+                    if (err) return reject(err);
+                    resolve();
+                });
+            });
+        },
+
+        /**
+         * Delete collection.
+         * 
+         * @param {string} databaseId - Id of the database.
+         * @param {string} collectionId - Id of the collection.
+         */
+        deleteCollection(databaseId, collectionId) {
+            return new Promise((resolve, reject) => {
+                let dbLink = 'dbs/' + databaseId;
+                let collLink = dbLink + '/colls/' + collectionId;
+
+                client.deleteCollection(collLink, err => {
+                    if (err) return reject(err);
+                    resolve();
+                });
+            });
         },
 
         /**

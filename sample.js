@@ -27,6 +27,8 @@ async function sample() {
 
     await DatabaseUtil.update(docLink, doc);
     await DatabaseUtil.delete(docLink);
+    await DatabaseUtil.deleteCollection(database.id, collection.id);
+    await DatabaseUtil.deleteDatabase(database.id);
 }
 
 sample();

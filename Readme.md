@@ -63,3 +63,13 @@ let docLink = DatabaseUtil.createDocumentLink(database.id, collection.id, doc.id
 
 await DatabaseUtil.delete(docLink);
 ```
+
+### Delete Database
+```javascript
+await DatabaseUtil.deleteDatabase('name');
+```
+
+### Delete Collection
+```javascript
+await DatabaseUtil.deleteCollection('dbName','collectionName');
+```
