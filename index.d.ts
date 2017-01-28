@@ -1,5 +1,5 @@
 declare class DocumentDbUtility {
-    new(config: { authKey: string, host: string });
+    constructor(config: { authKey: string, host: string });
     database(databaseId: string): {};
     collection(database: {}, collectionId: string): {};
     insert(collection: {}, documentDefinition: {}): {};
