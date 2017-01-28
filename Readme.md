@@ -6,25 +6,26 @@ Here are some examples on how to use this Utility. Note, *await* is only avaliab
 
 ### Initialize the library
 ```javascript
-var DatabaseUtil = require('documentdb-util')({authKey:'KEY', host:'URL TO DOCDB'});
+var DocumentDbUtility = require('documentdb-util');
+var dbUtil = new DocumentDbUtility({authKey:'KEY', host:'URL TO DOCDB'}));
 ```
 
 ### Get or Create Database
 
 ```javascript
-await DatabaseUtil.database('test');
+await dbUtil.database('test');
 ```
 
 ### Get or Create Collection
 
 ```javascript
-let collection = await DatabaseUtil.collection(database, 'people');
+let collection = await dbUtil.collection(database, 'people');
 ```
 
 ### Insert Document
 
 ```javascript
-await DatabaseUtil.insert(collection, {
+await dbUtil.insert(collection, {
         name:'penguin',
         profession: 'good guy'
     });
@@ -43,33 +44,33 @@ let spec = {
         ]
     }
 
-let docs = await DatabaseUtil.query(collection, spec);
+let docs = await dbUtil.query(collection, spec);
 ```
 
 ### Update Document
 
 ```javascript
-let doc = (await DatabaseUtil.query(collection, spec))[0];
+let doc = (await dbUtil.query(collection, spec))[0];
 doc.profession = "bad guy";
 
-let docLink = DatabaseUtil.createDocumentLink(database.id, collection.id, doc.id);
+let docLink = dbUtil.createDocumentLink(database.id, collection.id, doc.id);
 
-await DatabaseUtil.update(docLink, doc);
+await dbUtil.update(docLink, doc);
 ```
 
 ### Delete Document
 ```javascript
-let docLink = DatabaseUtil.createDocumentLink(database.id, collection.id, doc.id);
+let docLink = dbUtil.createDocumentLink(database.id, collection.id, doc.id);
 
-await DatabaseUtil.delete(docLink);
+await dbUtil.delete(docLink);
 ```
 
 ### Delete Database
 ```javascript
-await DatabaseUtil.deleteDatabase('name');
+await dbUtil.deleteDatabase('name');
 ```
 
 ### Delete Collection
 ```javascript
-await DatabaseUtil.deleteCollection('dbName','collectionName');
+await dbUtil.deleteCollection('dbName','collectionName');
 ```

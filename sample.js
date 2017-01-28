@@ -1,11 +1,12 @@
 var config = require('./config');
-var DatabaseUtil = require('./index')(config);
+var DocumentDbUtility = require('./index');
+var dbUtil = new DocumentDbUtility(config);
 
 async function sample() {
-    let database = await DatabaseUtil.database('test');
-    let collection = await DatabaseUtil.collection(database, 'people');
+    let database = await dbUtil.database('test');
+    let collection = await dbUtil.collection(database, 'people');
 
-    await DatabaseUtil.insert(collection, {
+    await dbUtil.insert(collection, {
         name:'penguin',
         profession: 'good guy'
     });
@@ -20,15 +21,15 @@ async function sample() {
         ]
     }
 
-    let doc = (await DatabaseUtil.query(collection, spec))[0];
+    let doc = (await dbUtil.query(collection, spec))[0];
     doc.profession = "bad guy";
 
-    let docLink = DatabaseUtil.createDocumentLink(database.id, collection.id, doc.id);
+    let docLink = dbUtil.createDocumentLink(database.id, collection.id, doc.id);
 
-    await DatabaseUtil.update(docLink, doc);
-    await DatabaseUtil.delete(docLink);
-    await DatabaseUtil.deleteCollection(database.id, collection.id);
-    await DatabaseUtil.deleteDatabase(database.id);
+    await dbUtil.update(docLink, doc);
+    await dbUtil.delete(docLink);
+    await dbUtil.deleteCollection(database.id, collection.id);
+    await dbUtil.deleteDatabase(database.id);
 }
 
 sample();
