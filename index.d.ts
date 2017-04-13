@@ -11,6 +11,6 @@ declare class DocumentDbUtility {
     createDocumentLink(databaseId: string, collectionId: string, documentId: string):string;
 }
 
-namespace DocumentDbUtility{}
+declare namespace DocumentDbUtility{}
 
 export = DocumentDbUtility;
