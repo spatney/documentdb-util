@@ -1,6 +1,6 @@
 {
   "name": "documentdb-util",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "A little wrapper utility around document db to perform simple operations",
   "typings":"./index.d.ts",
   "main": "./index.js",
