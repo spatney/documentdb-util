@@ -89,6 +89,37 @@ class DocumentDbUtility {
     }
 
     /**
+     * Get of create stored procedure
+     * 
+     * @param {string} collection - Collection
+     * @param {Function} proc - ACID transaction to be executed.
+     */
+    storedProcedure(collection, proc) {
+        return new Promise((resolve, reject) => {
+            this.client.createStoredProcedure(collection._self, proc, null, (err, response) => {
+                if (err) return reject(err);
+
+                resolve(response);
+            });
+        });
+    }
+
+    /**
+     * Execute stored procedure
+     * 
+     * @param {Object} proc
+     */
+    executeStoredProcedure(proc) {
+        return new Promise((resolve, reject) => {
+            this.client.executeStoredProcedure(proc._self, (err, response) => {
+                if (err) return reject(err);
+
+                resolve(response);
+            });
+        });
+    }
+
+    /**
      * Insert a document.
      * 
      * @param {string} collection - Collection.

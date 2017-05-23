@@ -28,6 +28,22 @@ async function sample() {
 
     await dbUtil.update(docLink, doc);
     await dbUtil.delete(docLink);
+
+    let proc = {
+        id:"jello",
+        body: function(){
+            var context = getContext();
+            var response = context.getResponse();
+
+            response.setBody("Hello from Proc");
+        }
+    }
+
+    let procInstance = await dbUtil.storedProcedure(collection, proc);
+    let result = await dbUtil.executeStoredProcedure(procInstance);
+
+    console.log(result);
+
     await dbUtil.deleteCollection(database.id, collection.id);
     await dbUtil.deleteDatabase(database.id);
 }

@@ -9,6 +9,8 @@ declare class DocumentDbUtility {
     deleteDatabase(databaseId: string):Promise<{}>;
     deleteCollection(databaseId: string, collectionId: string):Promise<{}>;
     createDocumentLink(databaseId: string, collectionId: string, documentId: string):string;
+    storedProcedure(collection:{}, proc:{id:string, body:Function});
+    executeStoredProcedure(proc:{});
 }
 
 declare namespace DocumentDbUtility{}

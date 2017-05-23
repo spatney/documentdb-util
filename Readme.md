@@ -58,6 +58,23 @@ let docLink = dbUtil.createDocumentLink(database.id, collection.id, doc.id);
 await dbUtil.update(docLink, doc);
 ```
 
+### Create & execute Stored Procedure
+
+```javascript
+let proc = {
+    id:"jello",
+    body: function() {
+        var context = getContext();
+        var response = context.getResponse();
+
+        response.setBody("Hello from Proc");
+    }
+}
+
+let procInstance = await dbUtil.storedProcedure(collection, proc);
+let result = await dbUtil.executeStoredProcedure(procInstance);
+```
+
 ### Delete Document
 ```javascript
 let docLink = dbUtil.createDocumentLink(database.id, collection.id, doc.id);
