@@ -62,17 +62,17 @@ await dbUtil.update(docLink, doc);
 
 ```javascript
 let proc = {
-    id:"jello",
-    serverScript: function() {
+    id:"summer",
+    serverScript: function(a,b){
         var context = getContext();
         var response = context.getResponse();
-
-        response.setBody("Hello from Proc");
+        let sum = a + b;
+        response.setBody(sum);
     }
 }
 
 let procInstance = await dbUtil.storedProcedure(collection, proc);
-let result = await dbUtil.executeStoredProcedure(procInstance);
+let result = await dbUtil.executeStoredProcedure(procInstance,[1,2]);
 ```
 
 ### Delete Document
