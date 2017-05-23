@@ -89,14 +89,145 @@ class DocumentDbUtility {
     }
 
     /**
-     * Get of create stored procedure
+     * Get or Create stored procedure
      * 
      * @param {string} collection - Collection
      * @param {Function} proc - ACID transaction to be executed.
      */
-    storedProcedure(collection, proc) {
+    storedProcedure(collection, proc, options) {
         return new Promise((resolve, reject) => {
-            this.client.createStoredProcedure(collection._self, proc, null, (err, response) => {
+            let querySpec = {
+                query: 'SELECT * FROM root r WHERE r.id=@id',
+                parameters: [{
+                    name: '@id',
+                    value: proc.id
+                }]
+            };
+
+            this.client.queryStoredProcedures(collection._self, querySpec).toArray((err, results) => {
+                if (err) return reject(err);
+
+
+                if (results.length === 0) {
+
+                    this.client.createStoredProcedure(collection._self, proc, options, (err, response) => {
+                        if (err) return reject(err);
+                        console.log('created new');
+                        resolve(response);
+                    });
+
+                } else {
+                    console.log('using existing')
+                    resolve(results[0]);
+                }
+            });
+        });
+    }
+
+    /**
+     * Delete stored procedure
+     * 
+     * @param {string} procedureLink - Procedure Link
+     */
+    deleteStoredProcedure(procedureLink, options) {
+        return new Promise((resolve, reject) => {
+            this.client.deleteStoredProcedure(procedureLink, options, (err, response) => {
+                if (err) return reject(err);
+
+                resolve(response);
+            });
+        });
+    }
+
+    /**
+     * Create user defined function
+     * 
+     * @param {string} collection - Collection
+     * @param {Function} udf - User defined function
+     */
+    userDefinedFunction(collection, udf, options) {
+        return new Promise((resolve, reject) => {
+            let querySpec = {
+                query: 'SELECT * FROM root r WHERE r.id=@id',
+                parameters: [{
+                    name: '@id',
+                    value: udf.id
+                }]
+            };
+
+            this.client.queryUserDefinedFunctions(collection._self, querySpec).toArray((err, results) => {
+                if (err) return reject(err);
+
+                if (results.length === 0) {
+
+                    this.client.createUserDefinedFunction(collection._self, udf, options, (err, response) => {
+                        if (err) return reject(err);
+
+                        resolve(response);
+                    });
+                } else {
+                    resolve(results[0])
+                }
+            });
+        });
+    }
+
+    /**
+     * Delete User Defined Function
+     * 
+     * @param {string} functionLink - Function Link
+     */
+    deleteUserDefinedFunction(functionLink, options) {
+        return new Promise((resolve, reject) => {
+            this.client.deleteUserDefinedFunction(functionLink, options, (err, response) => {
+                if (err) return reject(err);
+
+                resolve(response);
+            });
+        });
+    }
+
+    /**
+     * Get of create user defined function
+     * 
+     * @param {string} collection - Collection
+     * @param {Function} trigger - Trigger
+     */
+    trigger(collection, trigger, options) {
+        return new Promise((resolve, reject) => {
+            let querySpec = {
+                query: 'SELECT * FROM root r WHERE r.id=@id',
+                parameters: [{
+                    name: '@id',
+                    value: trigger.id
+                }]
+            };
+
+            this.client.queryTriggers(collection._self, querySpec).toArray((err, results) => {
+                if (err) return reject(err);
+
+                if (results.length === 0) {
+
+                    this.client.createTrigger(collection._self, trigger, options, (err, response) => {
+                        if (err) return reject(err);
+
+                        resolve(response);
+                    });
+                } else {
+                    resolve(results[0]);
+                }
+            });
+        });
+    }
+
+    /**
+     * Delete Trigger
+     * 
+     * @param {string} triggerLink - Trigger Link
+     */
+    deleteTrigger(triggerLink, options) {
+        return new Promise((resolve, reject) => {
+            this.client.deleteTrigger(triggerLink, options, (err, response) => {
                 if (err) return reject(err);
 
                 resolve(response);
@@ -125,9 +256,9 @@ class DocumentDbUtility {
      * @param {string} collection - Collection.
      * @param {Object} documentDefinition - Document JSON.
      */
-    insert(collection, documentDefinition) {
+    insert(collection, documentDefinition, options) {
         return new Promise((resolve, reject) => {
-            this.client.createDocument(collection._self, documentDefinition, (err, document) => {
+            this.client.createDocument(collection._self, documentDefinition, options ,(err, document) => {
                 if (err) return reject(err);
 
                 resolve(document);
@@ -140,9 +271,9 @@ class DocumentDbUtility {
      * 
      * @param {string} docLink - document link.
      */
-    delete(docLink) {
+    delete(docLink, options) {
         return new Promise((resolve, reject) => {
-            this.client.deleteDocument(docLink, err => {
+            this.client.deleteDocument(docLink, options ,err => {
                 if (err) return reject(err);
                 resolve();
             });
@@ -173,9 +304,9 @@ class DocumentDbUtility {
      * @param {string} docLink - document link.
      * @param {Object} documentDefinition - Document JSON.
      */
-    update(docLink, documentDefinition) {
+    update(docLink, documentDefinition, options) {
         return new Promise((resolve, reject) => {
-            this.client.replaceDocument(docLink, documentDefinition, function (err, updated, headers) {
+            this.client.replaceDocument(docLink, documentDefinition, options ,function (err, updated, headers) {
                 if (err) return reject(err);
                 resolve(updated);
             });
@@ -187,11 +318,11 @@ class DocumentDbUtility {
      * 
      * @param {string} databaseId - Id of the database.
      */
-    deleteDatabase(databaseId) {
+    deleteDatabase(databaseId, options) {
         return new Promise((resolve, reject) => {
             let dbLink = 'dbs/' + databaseId;
 
-            this.client.deleteDatabase(dbLink, err => {
+            this.client.deleteDatabase(dbLink, options ,err => {
                 if (err) return reject(err);
                 resolve();
             });
@@ -204,12 +335,12 @@ class DocumentDbUtility {
      * @param {string} databaseId - Id of the database.
      * @param {string} collectionId - Id of the collection.
      */
-    deleteCollection(databaseId, collectionId) {
+    deleteCollection(databaseId, collectionId, options) {
         return new Promise((resolve, reject) => {
             let dbLink = 'dbs/' + databaseId;
             let collLink = dbLink + '/colls/' + collectionId;
 
-            this.client.deleteCollection(collLink, err => {
+            this.client.deleteCollection(collLink, options ,err => {
                 if (err) return reject(err);
                 resolve();
             });
