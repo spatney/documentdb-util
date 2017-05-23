@@ -31,7 +31,7 @@ async function sample() {
 
     let proc = {
         id:"summer",
-        body: function(a,b){
+        serverScript: function(a,b){
             var context = getContext();
             var response = context.getResponse();
             let sum = a + b;
