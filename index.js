@@ -109,9 +109,9 @@ class DocumentDbUtility {
      * 
      * @param {Object} proc
      */
-    executeStoredProcedure(proc) {
+    executeStoredProcedure(proc, params) {
         return new Promise((resolve, reject) => {
-            this.client.executeStoredProcedure(proc._self, (err, response) => {
+            this.client.executeStoredProcedure(proc._self, params, (err, response) => {
                 if (err) return reject(err);
 
                 resolve(response);
