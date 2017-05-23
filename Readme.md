@@ -63,7 +63,7 @@ await dbUtil.update(docLink, doc);
 ```javascript
 let proc = {
     id:"jello",
-    body: function() {
+    serverScript: function() {
         var context = getContext();
         var response = context.getResponse();
 
