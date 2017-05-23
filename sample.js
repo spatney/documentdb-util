@@ -30,17 +30,17 @@ async function sample() {
     await dbUtil.delete(docLink);
 
     let proc = {
-        id:"jello",
-        body: function(){
+        id:"summer",
+        body: function(a,b){
             var context = getContext();
             var response = context.getResponse();
-
-            response.setBody("Hello from Proc");
+            let sum = a + b;
+            response.setBody('the sum is '+ sum);
         }
     }
 
     let procInstance = await dbUtil.storedProcedure(collection, proc);
-    let result = await dbUtil.executeStoredProcedure(procInstance);
+    let result = await dbUtil.executeStoredProcedure(procInstance,[1,2]);
 
     console.log(result);
 
