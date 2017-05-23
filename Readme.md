@@ -81,7 +81,7 @@ let result = await dbUtil.executeStoredProcedure(procInstance,[1,2]);
 let database = await dbUtil.database('test');
 let collection = await dbUtil.collection(database, 'people');
 
-let trig = {
+let superTimeTrigger = {
     id: "validateDocumentContents",
     serverScript: function validate() {
         var context = getContext();
@@ -95,14 +95,13 @@ let trig = {
     triggerOperation: 'Create'
 }
 
-let triggerInstance = await dbUtil.trigger(collection, trig);
+let triggerInstance = await dbUtil.trigger(collection, superTimeTrigger);
 
 await dbUtil.insert(collection, {
     name: 'penguin',
-    profession: 'better guy'
-}, { 
-    preTriggerInclude: [validateDocumentContentsTrigger.id] 
-});
+    profession: 'better guy',
+    income: 200
+}, { preTriggerInclude: [superTimeTrigger.id] });
 ```
 
 ### Create & execute User Defined Functions

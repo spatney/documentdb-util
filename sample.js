@@ -7,7 +7,7 @@ async function sample() {
         let database = await dbUtil.database('test');
         let collection = await dbUtil.collection(database, 'people');
 
-        let validateDocumentContentsTrigger = {
+        let superTimeTrigger = {
             id: "validateDocumentContents",
             serverScript: function validate() {
                 var context = getContext();
@@ -21,15 +21,13 @@ async function sample() {
             triggerOperation: 'Create'
         }
 
-        let triggerInstance = await dbUtil.trigger(collection, validateDocumentContentsTrigger);
+        let triggerInstance = await dbUtil.trigger(collection, superTimeTrigger);
 
         await dbUtil.insert(collection, {
             name: 'penguin',
             profession: 'better guy',
             income: 200
-        }, {
-                preTriggerInclude: [validateDocumentContentsTrigger.id]
-            });
+        }, { preTriggerInclude: [superTimeTrigger.id] });
 
         let spec = {
             query: 'Select * from c where c.name = @name',
