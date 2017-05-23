@@ -35,14 +35,14 @@ async function sample() {
             var context = getContext();
             var response = context.getResponse();
             let sum = a + b;
-            response.setBody('the sum is '+ sum);
+            response.setBody(sum);
         }
     }
 
     let procInstance = await dbUtil.storedProcedure(collection, proc);
     let result = await dbUtil.executeStoredProcedure(procInstance,[1,2]);
 
-    console.log(result);
+    console.log(`Store procedure result -> ${result}`);
 
     await dbUtil.deleteCollection(database.id, collection.id);
     await dbUtil.deleteDatabase(database.id);
