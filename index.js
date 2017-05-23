@@ -112,12 +112,10 @@ class DocumentDbUtility {
 
                     this.client.createStoredProcedure(collection._self, proc, options, (err, response) => {
                         if (err) return reject(err);
-                        console.log('created new');
                         resolve(response);
                     });
 
                 } else {
-                    console.log('using existing')
                     resolve(results[0]);
                 }
             });
