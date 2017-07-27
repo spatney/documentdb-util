@@ -2,6 +2,7 @@ declare class DocumentDbUtility {
     constructor(config: { authKey: string, host: string });
 
     database(databaseId: string): Promise<{}>;
+    listCollections(database:{}): Promise<{}>;
     collection(database: {}, collectionId: string): Promise<{}>;
     userDefinedFunction(collection: {}, udf: { id: string, serverScript: Function, options?: {} });
     trigger(collection: {}, proc: { id: string, serverScript: Function,options?:{}  });
