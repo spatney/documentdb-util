@@ -22,6 +22,12 @@ await dbUtil.database('test');
 let collection = await dbUtil.collection(database, 'people');
 ```
 
+### List Collections
+
+```javascript
+let collections = await dbUtil.listCollections(database);
+```
+
 ### Insert Document
 
 ```javascript

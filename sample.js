@@ -5,6 +5,7 @@ var dbUtil = new DocumentDbUtility(config);
 async function sample() {
     try {
         let database = await dbUtil.database('test');
+        let collections = await dbUtil.listCollections(database);
         let collection = await dbUtil.collection(database, 'people');
 
         let superTimeTrigger = {

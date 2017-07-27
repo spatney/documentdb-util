@@ -54,6 +54,25 @@ class DocumentDbUtility {
     }
 
     /**
+     * List Collections.
+     * 
+     * @param {string} databaseId - Id of the database.
+     */
+
+    listCollections(database) {
+        return new Promise((resolve, reject) => {
+            this.client.readCollections(database._self).toArray(function (err, cols) {
+                if (err) {
+                    reject(err);
+
+                } else {
+                    resolve(cols);
+                }
+            });
+        });
+    }
+
+    /**
      * Get or create collection.
      * 
      * @param {Object} database - Database
@@ -256,7 +275,7 @@ class DocumentDbUtility {
      */
     insert(collection, documentDefinition, options) {
         return new Promise((resolve, reject) => {
-            this.client.createDocument(collection._self, documentDefinition, options ,(err, document) => {
+            this.client.createDocument(collection._self, documentDefinition, options, (err, document) => {
                 if (err) return reject(err);
 
                 resolve(document);
@@ -271,7 +290,7 @@ class DocumentDbUtility {
      */
     delete(docLink, options) {
         return new Promise((resolve, reject) => {
-            this.client.deleteDocument(docLink, options ,err => {
+            this.client.deleteDocument(docLink, options, err => {
                 if (err) return reject(err);
                 resolve();
             });
@@ -304,7 +323,7 @@ class DocumentDbUtility {
      */
     update(docLink, documentDefinition, options) {
         return new Promise((resolve, reject) => {
-            this.client.replaceDocument(docLink, documentDefinition, options ,function (err, updated, headers) {
+            this.client.replaceDocument(docLink, documentDefinition, options, function (err, updated, headers) {
                 if (err) return reject(err);
                 resolve(updated);
             });
@@ -320,7 +339,7 @@ class DocumentDbUtility {
         return new Promise((resolve, reject) => {
             let dbLink = 'dbs/' + databaseId;
 
-            this.client.deleteDatabase(dbLink, options ,err => {
+            this.client.deleteDatabase(dbLink, options, err => {
                 if (err) return reject(err);
                 resolve();
             });
@@ -338,7 +357,7 @@ class DocumentDbUtility {
             let dbLink = 'dbs/' + databaseId;
             let collLink = dbLink + '/colls/' + collectionId;
 
-            this.client.deleteCollection(collLink, options ,err => {
+            this.client.deleteCollection(collLink, options, err => {
                 if (err) return reject(err);
                 resolve();
             });
