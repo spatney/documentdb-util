@@ -2,7 +2,7 @@
   "name": "documentdb-util",
   "version": "2.6.1",
   "description": "A little wrapper utility around document db to perform simple operations",
-  "typings":"./index.d.ts",
+  "typings": "./index.d.ts",
   "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
